@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t hotafrika/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true hotafrika/react-test npm test
+
+after_success:
+  - docker build -t hotafrika/multi-client ./client
+  - docker build -t hotafrika/multi-nginx ./nginx
+  - docker build -t hotafrika/multi-server ./server
+  - docker build -t hotafrika/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push hotafrika/multi-client
+  - docker push hotafrika/multi-nginx
+  - docker hotafrika/multi-server
+  - docker hotafrika/multi-worker
