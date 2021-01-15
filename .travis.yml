@@ -16,5 +16,5 @@ after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   - docker push hotafrika/multi-client
   - docker push hotafrika/multi-nginx
-  - docker hotafrika/multi-server
-  - docker hotafrika/multi-worker
+  - docker push hotafrika/multi-server
+  - docker push hotafrika/multi-worker
